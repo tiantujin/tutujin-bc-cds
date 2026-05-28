@@ -76,7 +76,7 @@ def _login_page(error: str = "") -> HTMLResponse:
     <h1>访问验证</h1>
     <p>请输入分享者提供的访问密码。通过后即可进入“土土金的中二BC小工具”。</p>
     {error_html}
-    <form method="post" action="/login">
+    <form method="post" action="login">
       <label>访问密码<input name="password" type="password" autocomplete="current-password" autofocus></label>
       <button type="submit">进入系统</button>
     </form>
@@ -105,12 +105,12 @@ def health():
 async def login(request: Request):
     password = os.environ.get("CDS_SHARE_PASSWORD")
     if not password:
-        return RedirectResponse(url="/", status_code=303)
+        return RedirectResponse(url="./", status_code=303)
     raw = (await request.body()).decode("utf-8")
     submitted = parse_qs(raw).get("password", [""])[0]
     if not secrets.compare_digest(submitted, password):
         return _login_page("密码不正确，请重新输入。")
-    response = RedirectResponse(url="/", status_code=303)
+    response = RedirectResponse(url="./", status_code=303)
     response.set_cookie("cds_auth", _share_token(password), httponly=True, samesite="lax", max_age=60 * 60 * 12)
     return response
 
