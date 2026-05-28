@@ -1,3 +1,12 @@
+---
+title: 土土金的中二BC小工具
+emoji: 🧬
+colorFrom: pink
+colorTo: teal
+sdk: docker
+pinned: false
+---
+
 # 乳腺癌临床决策支持系统 MVP
 
 本项目是本地运行、仅供医生个人使用的乳腺癌病例整理与规则匹配 MVP。系统不识别医学影像、不提供患者端、不替代临床判断。
