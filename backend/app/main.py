@@ -42,7 +42,7 @@ async def optional_share_password(request: Request, call_next):
     cookie_ok = secrets.compare_digest(request.cookies.get("cds_auth", ""), _share_token(password))
     basic_ok = secrets.compare_digest(auth, expected)
     if not (cookie_ok or basic_ok):
-        return _login_page()
+        return _login_page(request)
     return await call_next(request)
 
 
@@ -50,8 +50,16 @@ def _share_token(password: str) -> str:
     return hashlib.sha256(f"bc-cds-local-share:{password}".encode("utf-8")).hexdigest()
 
 
-def _login_page(error: str = "") -> HTMLResponse:
+def _external_base_url(request: Request) -> str:
+    forwarded_proto = request.headers.get("x-forwarded-proto")
+    scheme = forwarded_proto or request.url.scheme
+    host = request.headers.get("x-forwarded-host") or request.headers.get("host") or request.url.netloc
+    return f"{scheme}://{host}"
+
+
+def _login_page(request: Request, error: str = "") -> HTMLResponse:
     error_html = f"<p class='error'>{error}</p>" if error else ""
+    action_url = f"{_external_base_url(request)}/login"
     return HTMLResponse(
         f"""<!doctype html>
 <html lang="zh-CN">
@@ -76,7 +84,7 @@ def _login_page(error: str = "") -> HTMLResponse:
     <h1>访问验证</h1>
     <p>请输入分享者提供的访问密码。通过后即可进入“土土金的中二BC小工具”。</p>
     {error_html}
-    <form method="post" action="login">
+    <form method="post" action="{action_url}">
       <label>访问密码<input name="password" type="password" autocomplete="current-password" autofocus></label>
       <button type="submit">进入系统</button>
     </form>
@@ -104,14 +112,23 @@ def health():
 @app.post("/login")
 async def login(request: Request):
     password = os.environ.get("CDS_SHARE_PASSWORD")
+    redirect_url = f"{_external_base_url(request)}/"
     if not password:
-        return RedirectResponse(url="./", status_code=303)
+        return RedirectResponse(url=redirect_url, status_code=303)
     raw = (await request.body()).decode("utf-8")
     submitted = parse_qs(raw).get("password", [""])[0]
     if not secrets.compare_digest(submitted, password):
-        return _login_page("密码不正确，请重新输入。")
-    response = RedirectResponse(url="./", status_code=303)
-    response.set_cookie("cds_auth", _share_token(password), httponly=True, samesite="lax", max_age=60 * 60 * 12)
+        return _login_page(request, "密码不正确，请重新输入。")
+    response = RedirectResponse(url=redirect_url, status_code=303)
+    secure_cookie = (request.headers.get("x-forwarded-proto") or request.url.scheme) == "https"
+    response.set_cookie(
+        "cds_auth",
+        _share_token(password),
+        httponly=True,
+        secure=secure_cookie,
+        samesite="none" if secure_cookie else "lax",
+        max_age=60 * 60 * 12,
+    )
     return response
 
 
