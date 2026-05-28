@@ -4,7 +4,7 @@
 
 1. GitHub 保存代码。
 2. Render 从 GitHub 仓库自动部署 FastAPI。
-3. SQLite 数据库放在 Render persistent disk。
+3. 默认使用 Render 免费实例，不需要 persistent disk。
 
 ## 准备 GitHub 仓库
 
@@ -29,7 +29,7 @@ git push -u origin main
 3. Render 会读取根目录的 `render.yaml`。
 4. 设置环境变量：
    - `CDS_SHARE_PASSWORD`: 外网访问密码。
-   - `CDS_DATA_DIR`: 已在 `render.yaml` 中设置为 `/var/data`。
+   - `CDS_DATA_DIR`: 已在 `render.yaml` 中设置为 `/tmp/breast-cds-data`。
 5. 部署完成后，Render 会给出一个 `https://...onrender.com/cds` 地址。
 
 ## 注意
@@ -37,4 +37,5 @@ git push -u origin main
 - 这个系统仍只适合可信试用者，不建议录入真实患者身份信息。
 - `CDS_SHARE_PASSWORD` 一定要设置，否则页面会直接公开。
 - Render 免费实例可能会休眠，首次访问会慢一些。
-- 如果需要多人长期使用，建议后续把 SQLite 换成 PostgreSQL，并加入正式账号权限。
+- 免费实例的本地 SQLite 数据不适合长期保存；重启或重新部署后可能丢失。
+- 如果需要多人长期使用并保存数据，建议升级到带 persistent disk 的部署，或把 SQLite 换成 PostgreSQL，并加入正式账号权限。

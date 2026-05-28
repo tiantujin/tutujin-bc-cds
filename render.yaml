@@ -2,16 +2,12 @@ services:
   - type: web
     name: tutujin-bc-cds
     env: python
-    plan: starter
+    plan: free
     rootDir: backend
     buildCommand: python -m pip install --upgrade pip && pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: CDS_DATA_DIR
-        value: /var/data
+        value: /tmp/breast-cds-data
       - key: CDS_SHARE_PASSWORD
         sync: false
-    disk:
-      name: breast-cds-data
-      mountPath: /var/data
-      sizeGB: 1
