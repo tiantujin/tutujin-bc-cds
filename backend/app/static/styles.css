@@ -1,0 +1,88 @@
+:root {
+  font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  color: #1f2933;
+  background: #f5f7fb;
+}
+* { box-sizing: border-box; }
+body { margin: 0; display: grid; grid-template-columns: 230px 1fr; min-height: 100vh; }
+aside { background: #fff; border-right: 1px solid #d8e0ea; padding: 18px 12px; display: flex; flex-direction: column; gap: 9px; }
+.brand { display: flex; align-items: center; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid #e5ebf2; margin-bottom: 8px; }
+.brand img { width: 42px; height: 42px; border-radius: 10px; object-fit: cover; border: 1px solid #d8e0ea; background: #fff; }
+.brand span { font-weight: 800; line-height: 1.25; }
+main { padding: 26px 32px 48px; max-width: 1320px; }
+header { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; margin-bottom: 16px; }
+h1 { margin: 0 0 6px; font-size: 25px; }
+h2 { margin: 0 0 12px; font-size: 18px; }
+h3 { margin: 0 0 8px; font-size: 16px; }
+p { margin-top: 0; line-height: 1.65; }
+button, input, select, textarea { font: inherit; }
+button { min-height: 38px; border: 1px solid #cbd5e1; background: #fff; color: #243447; border-radius: 6px; padding: 0 12px; cursor: pointer; }
+button.primary, aside button.active { background: #1f7a6d; color: #fff; border-color: #1f7a6d; }
+aside button { text-align: left; }
+#caseBadge { margin-top: auto; padding: 10px; background: #f8fafc; border: 1px solid #d8e0ea; border-radius: 6px; color: #475569; }
+.disclaimer, .warning, .ok { border-radius: 6px; padding: 12px 14px; margin-bottom: 14px; }
+.disclaimer { background: #fbeff4; border: 1px solid #e4a9be; color: #833955; }
+.warning { background: #fff4de; border: 1px solid #f2c16d; color: #7a4d00; }
+.ok { background: #eaf7f2; border: 1px solid #a8d8c6; color: #1f6b55; }
+.quick-tip { background: #eef8ff; border-color: #a8d5f5; }
+.quick-tip p { margin-bottom: 0; }
+.bsa-panel {
+  background: #f8fafc;
+  border: 1px solid #d8e0ea;
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+.lesion-panel {
+  background: #f8fafc;
+  border: 1px solid #d8e0ea;
+  border-radius: 8px;
+  padding: 14px;
+  margin-top: 14px;
+}
+.lesion-row {
+  display: grid;
+  grid-template-columns: 80px repeat(3, minmax(150px, 1fr));
+  gap: 10px;
+  align-items: end;
+  padding: 10px 0;
+  border-top: 1px solid #e5ebf2;
+}
+.lesion-row b { padding-bottom: 9px; color: #475569; }
+section, .panel { background: #fff; border: 1px solid #d8e0ea; border-radius: 8px; padding: 18px; margin-bottom: 16px; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(170px, 1fr)); gap: 13px; }
+.grid.two { grid-template-columns: repeat(2, minmax(220px, 1fr)); }
+.grid.one { grid-template-columns: 1fr; }
+label { display: grid; gap: 6px; font-weight: 600; color: #334155; }
+input, select, textarea { width: 100%; min-height: 38px; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; }
+input:focus, select:focus, textarea:focus { outline: 2px solid #7ec7bc; border-color: #1f7a6d; }
+textarea { min-height: 110px; resize: vertical; line-height: 1.5; font-weight: 400; }
+table { width: 100%; border-collapse: collapse; }
+th, td { border-bottom: 1px solid #e5ebf2; padding: 10px; text-align: left; vertical-align: top; }
+th { background: #f8fafc; color: #475569; }
+.actions, #actions, .row-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.card { background: #fff; border: 1px solid #d8e0ea; border-radius: 8px; padding: 15px; margin-bottom: 12px; }
+.card strong { color: #0f766e; display: block; margin-bottom: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.muted { color: #64748b; }
+.toast {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 50;
+  max-width: 360px;
+  border-radius: 8px;
+  padding: 12px 14px;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.18);
+}
+.copybox { min-height: 300px; }
+dialog { width: min(760px, calc(100vw - 32px)); border: 1px solid #cbd5e1; border-radius: 8px; padding: 18px; }
+dialog::backdrop { background: rgba(15, 23, 42, 0.36); }
+.close { float: right; }
+@media (max-width: 900px) {
+  body { grid-template-columns: 1fr; }
+  aside { position: static; }
+  .grid, .grid.two { grid-template-columns: 1fr; }
+  .lesion-row { grid-template-columns: 1fr; }
+  header { display: block; }
+}

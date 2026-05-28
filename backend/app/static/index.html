@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>土土金的中二BC小工具</title>
+    <link rel="stylesheet" href="/app/styles.css?v=20260526-extract-fish" />
+  </head>
+  <body>
+    <aside>
+      <div class="brand">
+        <img src="/app/assets/tutujin-logo.png" alt="土土金个人logo" />
+        <span>土土金的中二BC小工具</span>
+      </div>
+      <button data-view="cases" class="active">病例</button>
+      <button data-view="edit">录入</button>
+      <button data-view="extract">报告抽取</button>
+      <button data-view="genomic">基因/模型</button>
+      <button data-view="recommend">推荐</button>
+      <button data-view="export">导出</button>
+      <p id="caseBadge">未选择病例</p>
+    </aside>
+    <main>
+      <header>
+        <div>
+          <h1 id="title">病例列表</h1>
+          <p>一个页面完成本地病例整理、规则匹配、基因检测解释和 MDT 摘要。</p>
+        </div>
+        <div id="actions"></div>
+      </header>
+      <div class="disclaimer">本系统仅供医生个人学习、病例整理和临床决策辅助使用，不替代医生判断，不作为自动诊疗、处方或医嘱依据。化疗方案和剂量需结合患者体表面积、肝肾功能、心功能、血常规、合并症、既往治疗史及本院规范最终确认。</div>
+      <section id="view"></section>
+    </main>
+    <dialog id="drugDialog">
+      <form method="dialog">
+        <button class="close">关闭</button>
+      </form>
+      <div id="drugDetail"></div>
+    </dialog>
+    <script src="/app/app.js?v=20260526-extract-fish"></script>
+  </body>
+</html>

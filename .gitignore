@@ -1,0 +1,10 @@
+.DS_Store
+.Rhistory
+__pycache__/
+.pytest_cache/
+.venv/
+node_modules/
+dist/
+backend/data/*.db
+backend/data/source_text/
+bin/cloudflared
