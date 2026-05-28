@@ -12,7 +12,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Push to Hugging Face Space
         env:
@@ -22,7 +22,28 @@ jobs:
             echo "Missing HF_TOKEN repository secret"
             exit 1
           fi
+          LOGO_DATA="$(base64 -w 0 backend/app/static/assets/tutujin-logo.png)"
+          export LOGO_DATA
+          python - <<'PY'
+          from pathlib import Path
+          import os
+
+          html = Path("backend/app/static/index.html")
+          text = html.read_text(encoding="utf-8")
+          data = os.environ["LOGO_DATA"]
+          text = text.replace(
+              'src="/app/assets/tutujin-logo.png"',
+              f'src="data:image/png;base64,{data}"',
+          )
+          html.write_text(text, encoding="utf-8")
+          Path("backend/app/static/assets/tutujin-logo.png").unlink(missing_ok=True)
+          PY
+          rm -rf .git
+          git init
+          git checkout -b main
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
+          git add .
+          git commit -m "Deploy app to Hugging Face Space"
           git remote add hf "https://Tiantujin:${HF_TOKEN}@huggingface.co/spaces/Tiantujin/tutujin-bc-cds"
           git push hf main --force
