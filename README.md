@@ -2,7 +2,7 @@
 title: 土土金的中二BC小工具
 emoji: 🧬
 colorFrom: pink
-colorTo: teal
+colorTo: green
 sdk: docker
 pinned: false
 ---
