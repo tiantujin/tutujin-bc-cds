@@ -22,15 +22,13 @@ jobs:
             echo "Missing HF_TOKEN repository secret"
             exit 1
           fi
-          LOGO_DATA="$(base64 -w 0 backend/app/static/assets/tutujin-logo.png)"
-          export LOGO_DATA
           python - <<'PY'
           from pathlib import Path
-          import os
+          import base64
 
           html = Path("backend/app/static/index.html")
           text = html.read_text(encoding="utf-8")
-          data = os.environ["LOGO_DATA"]
+          data = base64.b64encode(Path("backend/app/static/assets/tutujin-logo.png").read_bytes()).decode("ascii")
           text = text.replace(
               'src="/app/assets/tutujin-logo.png"',
               f'src="data:image/png;base64,{data}"',
