@@ -105,19 +105,19 @@ def health():
 async def login(request: Request):
     password = os.environ.get("CDS_SHARE_PASSWORD")
     if not password:
-        return RedirectResponse(url="/cds", status_code=303)
+        return RedirectResponse(url="/", status_code=303)
     raw = (await request.body()).decode("utf-8")
     submitted = parse_qs(raw).get("password", [""])[0]
     if not secrets.compare_digest(submitted, password):
         return _login_page("密码不正确，请重新输入。")
-    response = RedirectResponse(url="/cds", status_code=303)
+    response = RedirectResponse(url="/", status_code=303)
     response.set_cookie("cds_auth", _share_token(password), httponly=True, samesite="lax", max_age=60 * 60 * 12)
     return response
 
 
 @app.get("/")
 def root():
-    return RedirectResponse(url="/cds")
+    return FileResponse(STATIC_DIR / "index.html")
 
 
 @app.get("/cds")
